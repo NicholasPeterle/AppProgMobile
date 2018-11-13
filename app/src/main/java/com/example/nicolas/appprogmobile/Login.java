@@ -1,8 +1,13 @@
 package com.example.nicolas.appprogmobile;
 
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,12 +19,40 @@ public class Login extends AppCompatActivity {
     private Button btnLogin;
     private Button btnRegister;
     private DBHelper mDBHelper;
+    private Toolbar mToolbar;
+    private Toolbar mToolbarButtom;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        mToolbar = (Toolbar) findViewById(R.id.tb_login);
+        setSupportActionBar(mToolbar);
+        mToolbar.setTitle("Tela de Login");
+
+
+        mToolbarButtom = (Toolbar) findViewById(R.id.inc_tb_buttom);
+        mToolbarButtom.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent it = null;
+
+                switch (item.getItemId()){
+                    case R.id.home:
+                        startActivity(new Intent(Login.this, Inicial.class));
+                        break;
+                    case R.id.sair:
+                        break;
+                }
+               return true;
+            }
+        });
+
+        mToolbarButtom.inflateMenu(R.menu.login_menu_buttom);
+
 
         mDBHelper = new DBHelper(Login.this);
 
@@ -50,7 +83,11 @@ public class Login extends AppCompatActivity {
                 startActivity(new Intent(Login.this, Add.class));
             }
         });
+    }
 
 
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.login_menu_buttom, menu);
+        return true;
     }
 }
