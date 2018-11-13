@@ -8,7 +8,7 @@
     android:layout_marginLeft="20px"
     android:layout_marginRight="20px"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".Login">
 
     <ScrollView
         android:layout_width="match_parent"
