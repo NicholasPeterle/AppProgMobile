@@ -1,4 +1,5 @@
 package com.example.nicolas.appprogmobile;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -51,10 +52,12 @@ public class Add extends AppCompatActivity {
                     // Add on database
                     boolean verify = mDBHelper.insert(mContact);
                     if(verify){
-                        Toast.makeText(Add.this, "Sucesso ao cadastrar!\nLimpando os campos...", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Add.this, "Usuário cadastrado com sucesso.", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(Add.this, Login.class);
+                        startActivity(intent);
                         empty();
                     }else{
-                        Toast.makeText(Add.this, "Erro ao cadastrar!\nE-mail ou usuário já existem...", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Add.this, "Erro ao cadastrar!\nE-mail ou usuário já cadastrados.", Toast.LENGTH_LONG).show();
                     }
                 }else {
                     Toast.makeText(Add.this, "As senhas não conferem", Toast.LENGTH_LONG).show();

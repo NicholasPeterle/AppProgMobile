@@ -32,8 +32,28 @@ public class Login extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.tb_login);
         setSupportActionBar(mToolbar);
         mToolbar.setTitle("Tela de Login");
+        mToolbar.setSubtitle("Aplicativo de Gerenciamento de Eventos");
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent it = null;
 
+                switch (item.getItemId()){
+                    case R.id.home:
+                        startActivity(new Intent(Login.this, Inicial.class));
+                        break;
+                    case R.id.sair:
+                        finish();
+                        break;
+                }
+                return true;
 
+            }
+        });
+        mToolbar.inflateMenu(R.menu.login_menu_buttom);
+
+        /*
+        MENU DE RODAPÉ, DESNECESSÁRIO
         mToolbarButtom = (Toolbar) findViewById(R.id.inc_tb_buttom);
         mToolbarButtom.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -50,9 +70,8 @@ public class Login extends AppCompatActivity {
                return true;
             }
         });
-
         mToolbarButtom.inflateMenu(R.menu.login_menu_buttom);
-
+        */
 
         mDBHelper = new DBHelper(Login.this);
 
