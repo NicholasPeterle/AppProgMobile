@@ -21,5 +21,10 @@
     <string name="back">Voltar</string>
     <string name="fornecedor">Fornecedor de Serviço</string>
     <string name="cliente">Cliente</string>
+    <string name="eventoempresa">Evento para empresas</string>
+    <string name="formatura">Formatura</string>
+    <string name="quinzeanos">15 anos</string>
+    <string name="casamento">Casamento</string>
+
 
 </resources>

@@ -28,6 +28,12 @@
         <activity
             android:name=".Update"
             android:label="Atualizar"></activity>
+        <activity
+            android:name=".ClienteEscolheServico"
+            android:label="ClienteEscolheServico"></activity>
+        <activity
+            android:name=".ClienteSolicitaAgendamentoEvento"
+            android:label="ClienteSolicitaAgendamentoEvento"></activity>
     </application>
 
 </manifest>

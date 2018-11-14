@@ -69,7 +69,8 @@ public class Login extends AppCompatActivity {
                 String password = edtPassword.getText().toString();
                 String confirmResult = mDBHelper.getPassword(user);
                 if(password.equals(confirmResult)){
-                    startActivity(new Intent(Login.this, Details.class).putExtra("user_key", user));
+                    //AQUI.........................................................................
+                    startActivity(new Intent(Login.this, ClienteEscolheServico.class));
                 }else{
                     Toast.makeText(Login.this, "Usuário ou senha não conferem", Toast.LENGTH_SHORT).show();
                 }
