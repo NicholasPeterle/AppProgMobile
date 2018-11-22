@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
     // Instância do database
@@ -26,36 +25,60 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //Tabela EMPRESA
     private static final String TABLE_EMPRESA_NOME = "empresa";
+    private static final String TABLE_EMPRESA_COLUM_ID = "id";
     private static final String TABLE_EMPRESA_COLUM_NAME = "nome";
     private static final String TABLE_EMPRESA_COLUM_CNPJ = "cnpj";
     private static final String TABLE_EMPRESA_COLUM_EMAIL = "email";
     private static final String TABLE_EMPRESA_COLUM_PASSWORD = "senha";
 
     /** Constantes referente a tabela: cliente*/
-    private static final String TABLE_CLIENTE_NAME = "cliente"; // Nome da tabela
-    private static final String TABLE_CLIENTE_COLUM_ID = "id";
-    private static final String TABLE_CLIENTE_COLUM_NAME = "nome";
-    private static final String TABLE_CLIENTE_COLUM_EMAIL = "email";
-    private static final String TABLE_CLIENTE_COLUM_USER = "user";
-    private static final String TABLE_CLIENTE_COLUM_PASSWORD = "senha";
+    private static final String TABLE_CONTACT_NAME = "cliente"; // Nome da tabela
+    private static final String TABLE_CONTACT_COLUM_ID = "id";
+    private static final String TABLE_CONTACT_COLUM_NAME = "nome";
+    private static final String TABLE_CONTACT_COLUM_EMAIL = "email";
+    private static final String TABLE_CONTACT_COLUM_USER = "user";
+    private static final String TABLE_CONTACT_COLUM_PASSWORD = "senha";
 
     // TABELA EVENTO
     private static final String TABLE_EVENTO_NAME = "evento";
+    private static final String TABLE_EVENTO_COLUM_NOME = "titulo";
     private static final String TABLE_EVENTO_COLUM_ID = "id";
     private static final String TABLE_EVENTO_COLUM_TIPO = "tipo";
     private static final String TABLE_EVENTO_COLUM_LOCAL = "local";
     private static final String TABLE_EVENTO_COLUM_DATA = "data";
     private static final String TABLE_EVENTO_COLUM_HORA = "hora";
     private static final String TABLE_EVENTO_COLUM_QTDPESSOAS = "qtdPessoas";
+    private static final String TABLE_EVENTO_COLUM_CLIENTE = "cliente";
 
-    /** SQL para criaçao da tablea cliente*/
+    /* SQL para criaçao da tabela cliente*/
     private static final String SQL_CREATE_TABLE_CONTACTS = " CREATE TABLE "
-            + TABLE_CLIENTE_NAME + " ( "
-            + TABLE_CLIENTE_COLUM_ID + " integer PRIMARY KEY AUTOINCREMENT, "
-            + TABLE_CLIENTE_COLUM_NAME + " TEXT NOT NULL,"
-            + TABLE_CLIENTE_COLUM_EMAIL + " TEXT NOT NULL UNIQUE,"
-            + TABLE_CLIENTE_COLUM_USER + " TEXT NOT NULL UNIQUE,"
-            + TABLE_CLIENTE_COLUM_PASSWORD + " TEXT NOT NULL ) ; " ;
+            + TABLE_CONTACT_NAME + " ( "
+            + TABLE_CONTACT_COLUM_ID + " integer PRIMARY KEY AUTOINCREMENT, "
+            + TABLE_CONTACT_COLUM_NAME + " TEXT NOT NULL,"
+            + TABLE_CONTACT_COLUM_EMAIL + " TEXT NOT NULL UNIQUE,"
+            + TABLE_CONTACT_COLUM_USER + " TEXT NOT NULL UNIQUE,"
+            + TABLE_CONTACT_COLUM_PASSWORD + " TEXT NOT NULL ) ; " ;
+
+    // SQL para criaçao da tabela Empresa
+    private static final String SQL_CREATE_TABLE_EMPRESA = " CREATE TABLE "
+            + TABLE_EMPRESA_NOME + " ( "
+            + TABLE_EMPRESA_COLUM_ID + " integer PRIMARY KEY AUTOINCREMENT, "
+            + TABLE_EMPRESA_COLUM_NAME + " TEXT NOT NULL,"
+            + TABLE_EMPRESA_COLUM_EMAIL + " TEXT NOT NULL UNIQUE,"
+            + TABLE_EMPRESA_COLUM_CNPJ + " TEXT NOT NULL UNIQUE,"
+            + TABLE_EMPRESA_COLUM_PASSWORD + " TEXT NOT NULL ) ; " ;
+
+    // SQL para criacao da tabela EVENTO
+    private static final String SQL_CREATE_TABLE_EVENTO = " CREATE TABLE "
+            + TABLE_EVENTO_NAME + " ( "
+            + TABLE_EVENTO_COLUM_ID + " integer PRIMARY KEY AUTOINCREMENT, "
+            + TABLE_EVENTO_COLUM_NOME + " TEXT NOT NULL,"
+            + TABLE_EVENTO_COLUM_TIPO + " TEXT NOT NUL,"
+            + TABLE_EVENTO_COLUM_LOCAL + " TEXT NOT NULL,"
+            + TABLE_EVENTO_COLUM_DATA + " TEXT NOT NULL, "
+            + TABLE_EVENTO_COLUM_HORA + "TEXT NOT NULL, "
+            + TABLE_EVENTO_COLUM_QTDPESSOAS + "integer NOT NULL"
+            + TABLE_EVENTO_COLUM_CLIENTE + "TEXT NOT NULL ;" ;
 
     public DBHelper(Context context) {
         super(context,DATABASE_NAME, null, DATABASE_VERSION);
@@ -72,7 +95,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Log.i("TAG", "onUpgrade");
         Log.i("TAG", "Versão antiga: " + versaoAntiga);
         Log.i("TAG", "Versão nova: " + versaoNova);
-        String query = "DROP TABLE IF EXISTS "+ TABLE_CLIENTE_NAME ;
+        String query = "DROP TABLE IF EXISTS "+ TABLE_CONTACT_NAME;
         mDatabase = db;
         mDatabase.execSQL(query);
         this.onCreate(mDatabase);
@@ -83,12 +106,12 @@ public class DBHelper extends SQLiteOpenHelper {
         mDatabase = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(TABLE_CLIENTE_COLUM_NAME, contact.getName());
-        values.put(TABLE_CLIENTE_COLUM_EMAIL, contact.getEmail());
-        values.put(TABLE_CLIENTE_COLUM_USER, contact.getUser());
-        values.put(TABLE_CLIENTE_COLUM_PASSWORD, contact.getPassword());
+        values.put(TABLE_CONTACT_COLUM_NAME, contact.getName());
+        values.put(TABLE_CONTACT_COLUM_EMAIL, contact.getEmail());
+        values.put(TABLE_CONTACT_COLUM_USER, contact.getUser());
+        values.put(TABLE_CONTACT_COLUM_PASSWORD, contact.getPassword());
 
-        long i = mDatabase.insert(TABLE_CLIENTE_NAME, null,values );
+        long i = mDatabase.insert(TABLE_CONTACT_NAME, null,values );
         // Encerra o a conexao com banco de dados
         mDatabase.close();
         if(i > 0){
@@ -102,15 +125,15 @@ public class DBHelper extends SQLiteOpenHelper {
     }
     public String getPassword(String user) {
         mDatabase = this.getWritableDatabase();
-        String query = "SELECT "+TABLE_CLIENTE_COLUM_USER+", " +TABLE_CLIENTE_COLUM_PASSWORD+ " FROM " + TABLE_CLIENTE_NAME + ";";
+        String query = "SELECT "+ TABLE_CONTACT_COLUM_USER +", " + TABLE_CONTACT_COLUM_PASSWORD + " FROM " + TABLE_CONTACT_NAME + ";";
         Cursor cursor = mDatabase.rawQuery(query,null);
         String a, b;
         b="Não encontrado";
         if(cursor.moveToFirst()){
             do {
-                a = cursor.getString((cursor.getColumnIndex(TABLE_CLIENTE_COLUM_USER)));
+                a = cursor.getString((cursor.getColumnIndex(TABLE_CONTACT_COLUM_USER)));
                 if (a.equals(user)) {
-                    b = cursor.getString((cursor.getColumnIndex(TABLE_CLIENTE_COLUM_PASSWORD)));
+                    b = cursor.getString((cursor.getColumnIndex(TABLE_CONTACT_COLUM_PASSWORD)));
                     break;
                 }
             } while (cursor.moveToNext());
@@ -123,7 +146,7 @@ public class DBHelper extends SQLiteOpenHelper {
         long retornoBD;
         mDatabase = this.getWritableDatabase();
         String[] args = {String.valueOf(c.getName())};
-        retornoBD = mDatabase.delete(TABLE_CLIENTE_NAME, TABLE_CLIENTE_COLUM_NAME + "=?", args);
+        retornoBD = mDatabase.delete(TABLE_CONTACT_NAME, TABLE_CONTACT_COLUM_NAME + "=?", args);
         mDatabase.close();
         return retornoBD;
     }
@@ -132,12 +155,12 @@ public class DBHelper extends SQLiteOpenHelper {
         long retornoBD;
         mDatabase = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(TABLE_CLIENTE_COLUM_NAME, contact.getName());
-        values.put(TABLE_CLIENTE_COLUM_EMAIL, contact.getEmail());
-        values.put(TABLE_CLIENTE_COLUM_USER, contact.getUser());
-        values.put(TABLE_CLIENTE_COLUM_PASSWORD, contact.getPassword());
+        values.put(TABLE_CONTACT_COLUM_NAME, contact.getName());
+        values.put(TABLE_CONTACT_COLUM_EMAIL, contact.getEmail());
+        values.put(TABLE_CONTACT_COLUM_USER, contact.getUser());
+        values.put(TABLE_CONTACT_COLUM_PASSWORD, contact.getPassword());
         String[] args = {String.valueOf(contact.getUser())};
-        retornoBD = mDatabase.update(TABLE_CLIENTE_NAME, values, TABLE_CLIENTE_COLUM_USER + "=?", args);
+        retornoBD = mDatabase.update(TABLE_CONTACT_NAME, values, TABLE_CONTACT_COLUM_USER + "=?", args);
         mDatabase.close();
         return retornoBD;
     }
@@ -147,13 +170,13 @@ public class DBHelper extends SQLiteOpenHelper {
         // Contato auxiliar
         Contact contact = null;
         // Colunas desejadas no retorno
-        String[] coluns = {TABLE_CLIENTE_COLUM_NAME, TABLE_CLIENTE_COLUM_EMAIL, TABLE_CLIENTE_COLUM_USER, TABLE_CLIENTE_COLUM_PASSWORD};
+        String[] coluns = {TABLE_CONTACT_COLUM_NAME, TABLE_CONTACT_COLUM_EMAIL, TABLE_CONTACT_COLUM_USER, TABLE_CONTACT_COLUM_PASSWORD};
 
         // Instancia uma nova conexão com o banco de dados em modo leitura
         mDatabase = this.getWritableDatabase();
 
         // Executa a consulta no banco de dados
-        Cursor cursor = mDatabase.query(TABLE_CLIENTE_NAME, coluns ,null, null, null, null, TABLE_CLIENTE_COLUM_ID +" ASC");
+        Cursor cursor = mDatabase.query(TABLE_CONTACT_NAME, coluns ,null, null, null, null, TABLE_CONTACT_COLUM_ID +" ASC");
         //db.rawQuery("SELECT * FROM contacts;",null);
         /**
          * Percorre o Cursor, injetando os dados consultados em um objeto definido do
@@ -162,10 +185,10 @@ public class DBHelper extends SQLiteOpenHelper {
         try{
             while (cursor.moveToNext()){
                 contact = new Contact();
-                contact.setName(cursor.getString(cursor.getColumnIndex(TABLE_CLIENTE_COLUM_NAME)));
-                contact.setEmail(cursor.getString(cursor.getColumnIndex(TABLE_CLIENTE_COLUM_EMAIL)));
-                contact.setUser(cursor.getString(cursor.getColumnIndex(TABLE_CLIENTE_COLUM_USER)));
-                contact.setPassword(cursor.getString(cursor.getColumnIndex(TABLE_CLIENTE_COLUM_PASSWORD)));
+                contact.setName(cursor.getString(cursor.getColumnIndex(TABLE_CONTACT_COLUM_NAME)));
+                contact.setEmail(cursor.getString(cursor.getColumnIndex(TABLE_CONTACT_COLUM_EMAIL)));
+                contact.setUser(cursor.getString(cursor.getColumnIndex(TABLE_CONTACT_COLUM_USER)));
+                contact.setPassword(cursor.getString(cursor.getColumnIndex(TABLE_CONTACT_COLUM_PASSWORD)));
 
                 contacts.add(contact);
             }
