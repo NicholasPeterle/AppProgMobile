@@ -78,7 +78,7 @@ public class DBHelper extends SQLiteOpenHelper {
             + TABLE_EVENTO_COLUM_DATA + " TEXT NOT NULL, "
             + TABLE_EVENTO_COLUM_HORA + "TEXT NOT NULL, "
             + TABLE_EVENTO_COLUM_QTDPESSOAS + "integer NOT NULL"
-            + TABLE_EVENTO_COLUM_CLIENTE + "TEXT NOT NULL ;" ;
+            + TABLE_EVENTO_COLUM_CLIENTE + "TEXT NOT NULL ) ; " ;
 
     public DBHelper(Context context) {
         super(context,DATABASE_NAME, null, DATABASE_VERSION);
