@@ -73,7 +73,7 @@ public class DBHelper extends SQLiteOpenHelper {
             + TABLE_EVENTO_NAME + " ( "
             + TABLE_EVENTO_COLUM_ID + " integer PRIMARY KEY AUTOINCREMENT, "
             + TABLE_EVENTO_COLUM_NOME + " TEXT NOT NULL,"
-            + TABLE_EVENTO_COLUM_TIPO + " TEXT NOT NUL,"
+            + TABLE_EVENTO_COLUM_TIPO + " TEXT NOT NULl,"
             + TABLE_EVENTO_COLUM_LOCAL + " TEXT NOT NULL,"
             + TABLE_EVENTO_COLUM_DATA + " TEXT NOT NULL, "
             + TABLE_EVENTO_COLUM_HORA + "TEXT NOT NULL, "
