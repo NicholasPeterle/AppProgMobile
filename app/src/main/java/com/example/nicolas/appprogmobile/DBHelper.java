@@ -88,6 +88,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         Log.i("TAG", "onCreate");
         db.execSQL(SQL_CREATE_TABLE_CONTACTS);
+        db.execSQL(SQL_CREATE_TABLE_EMPRESA);
+        db.execSQL(SQL_CREATE_TABLE_EVENTO);
         this.mDatabase = db;
     }
     @Override
