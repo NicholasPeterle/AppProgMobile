@@ -20,10 +20,16 @@
             android:name=".Login"
             android:label="Login" />
         <activity
+            android:name=".LoginEmpresa"
+            android:label="LoginEmpresa" />
+        <activity
             android:name=".Add"
             android:label="Cadastrar" />
         <activity
-            android:name=".Details"
+            android:name=".AddEmpresa"
+            android:label="CadastrarEmpresa" />
+        <activity
+            android:name=".EmpresaView"
             android:label="Detalhes" />
         <activity
             android:name=".Update"

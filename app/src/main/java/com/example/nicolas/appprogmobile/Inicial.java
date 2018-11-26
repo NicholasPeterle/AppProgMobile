@@ -22,7 +22,7 @@ public class Inicial extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Inicial.this, "Inicial", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(Inicial.this, Login.class));
+                startActivity(new Intent(Inicial.this, LoginEmpresa.class));
             }
         });
 

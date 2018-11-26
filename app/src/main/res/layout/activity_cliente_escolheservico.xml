@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="20px"
+    android:layout_marginTop="20px"
+    android:layout_marginRight="20px"
+    android:layout_marginBottom="20px"
+    android:orientation="vertical"
+    tools:context=".ClienteEscolheServico">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_ClienteEscolheServico"
+        app:title="Escolher tipo de serviço"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+    </android.support.v7.widget.Toolbar>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -11,43 +31,44 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Seja bem-vindo @string/user, escolha o serviço desejado:"/>
+                android:text="Seja bem-vindo @string/user, escolha o serviço desejado:" />
 
-                <Button
-                    android:id="@+id/btnEventoEmpresa"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/eventoempresa"/>
-
-                <Button
-                    android:id="@+id/btnFormatura"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/formatura" />
             <Button
-                android:id="@+id/btnQuinzeAnos"
-                android:layout_weight="1"
+                android:id="@+id/btnEventoEmpresa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="@string/eventoempresa" />
+
+            <Button
+                android:id="@+id/btnFormatura"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="@string/formatura" />
+
+            <Button
+                android:id="@+id/btnQuinzeAnos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
                 android:text="@string/quinzeanos" />
 
             <Button
                 android:id="@+id/btnCasamento"
-                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:text="@string/casamento" />
-            </LinearLayout>
+        </LinearLayout>
     </ScrollView>
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

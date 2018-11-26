@@ -7,11 +7,17 @@
 
     <!--Forms - TextView Labels-->
     <string name="user">Usuário:</string>
-    <string name="name">Nome:</string>
-    <string name="email">Email::</string>
+    <string name="userEmpresa">Usuário da empresa:</string>
     <string name="password">Senha:</string>
     <string name="confirm_password">Confirmar a Senha:</string>
-    <string name="txt_list_users">Lista de Usuários</string>
+
+    <string name="name">Nome:</string>
+    <string name="email">Email::</string>
+    <string name="emailEmpresa">Email da Empresa::</string>
+
+    <string name="passwordEmpresa">Senha:</string>
+    <string name="confirm_passwordEmpresa">Confirmar a Senha:</string>
+    <string name="txt_eventos_solicitados">Lista de Eventos Solicitados</string>
 
     <!--Forms - Buttons-->
     <string name="login">Entrar</string>

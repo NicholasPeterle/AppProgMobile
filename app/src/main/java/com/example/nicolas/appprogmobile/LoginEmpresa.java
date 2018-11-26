@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class Login extends AppCompatActivity {
+public class LoginEmpresa extends AppCompatActivity {
     private EditText edtUser;
     private EditText edtPassword;
     private Button btnLogin;
@@ -27,7 +27,7 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login_empresa);
 
         mToolbar = (Toolbar) findViewById(R.id.tb_login);
         setSupportActionBar(mToolbar);
@@ -40,7 +40,7 @@ public class Login extends AppCompatActivity {
 
                 switch (item.getItemId()){
                     case R.id.home:
-                        startActivity(new Intent(Login.this, Inicial.class));
+                        startActivity(new Intent(LoginEmpresa.this, Inicial.class));
                         break;
                     case R.id.sair:
                         finish();
@@ -73,7 +73,7 @@ public class Login extends AppCompatActivity {
         mToolbarButtom.inflateMenu(R.menu.login_menu_buttom);
         */
 
-        mDBHelper = new DBHelper(Login.this);
+        mDBHelper = new DBHelper(LoginEmpresa.this);
 
         edtUser = findViewById(R.id.edtUser);
         edtPassword = findViewById(R.id.edtPassword);
@@ -84,14 +84,14 @@ public class Login extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String user = edtUser.getText().toString();
+                String userEmpresa = edtUser.getText().toString();
                 String password = edtPassword.getText().toString();
-                String confirmResult = mDBHelper.getPassword(user);
+                String confirmResult = mDBHelper.getPasswordEmpresa(userEmpresa);
                 if(password.equals(confirmResult)){
                     //AQUI.........................................................................
-                    startActivity(new Intent(Login.this, ClienteEscolheServico.class));
+                    startActivity(new Intent(LoginEmpresa.this, EmpresaView.class).putExtra("user_key", userEmpresa));
                 }else{
-                    Toast.makeText(Login.this, "Usuário ou senha não conferem", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginEmpresa.this, "Usuário ou senha não conferem", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -99,8 +99,8 @@ public class Login extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(Login.this, "Cadastrar", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(Login.this, Add.class));
+                Toast.makeText(LoginEmpresa.this, "Cadastrar", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(LoginEmpresa.this, AddEmpresa.class));
             }
         });
     }
