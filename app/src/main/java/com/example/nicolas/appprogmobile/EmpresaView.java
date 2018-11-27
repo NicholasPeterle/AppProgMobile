@@ -3,6 +3,7 @@ package com.example.nicolas.appprogmobile;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -18,17 +19,40 @@ import java.util.ArrayList;
 
 public class EmpresaView extends AppCompatActivity {
     private EditText edtUser;
-        private ListView lvEventosSolicitados;
+    private ListView lvEventosSolicitados;
     private ArrayList<Evento> mListEventosSolicitados;
     private DBHelper mDBHelper;
     private ArrayAdapter<Evento> mAdapter;
     private Evento mEvento;
+    private Toolbar mToolbar;
     private int ID_DELETE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_empresa_view);
+
+        mToolbar = (Toolbar) findViewById(R.id.tb_empresaView);
+        setSupportActionBar(mToolbar);
+        mToolbar.setSubtitle("Aplicativo de Gerenciamento de Eventos");
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent it = null;
+
+                switch (item.getItemId()){
+                    case R.id.home:
+                        startActivity(new Intent(EmpresaView.this, Inicial.class));
+                        break;
+                    case R.id.sair:
+                        finish();
+                        break;
+                }
+                return true;
+
+            }
+        });
+        mToolbar.inflateMenu(R.menu.login_menu_buttom);
 
         edtUser = findViewById(R.id.edtUser);
         lvEventosSolicitados =  findViewById(R.id.lvEventosSolicitados);
@@ -106,5 +130,9 @@ public class EmpresaView extends AppCompatActivity {
             // Setando o adaptador
             lvEventosSolicitados.setAdapter(mAdapter);
         }
+    }
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.login_menu_buttom, menu);
+        return true;
     }
 }

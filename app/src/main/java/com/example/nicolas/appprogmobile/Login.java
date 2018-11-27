@@ -31,7 +31,6 @@ public class Login extends AppCompatActivity {
 
         mToolbar = (Toolbar) findViewById(R.id.tb_login);
         setSupportActionBar(mToolbar);
-        //mToolbar.setTitle("Login");
         mToolbar.setSubtitle("Aplicativo de Gerenciamento de Eventos");
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override

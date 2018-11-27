@@ -13,14 +13,15 @@ import com.example.nicolas.appprogmobile.Contact;
 import com.example.nicolas.appprogmobile.Evento;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
     // Instância do database
     SQLiteDatabase mDatabase;
     Context mContext;
     //Constatntes referente ao banco de dados
-    private static final String DATABASE_NAME = "db_eventos";
-    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "db_eventos.db";
+    private static final int DATABASE_VERSION = 4;
 
     //Tabela EMPRESA
     private static final String TABLE_EMPRESA_NOME = "empresa";//nome da tabela
@@ -274,10 +275,10 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(TABLE_EVENTO_COLUM_QTDPESSOAS, eventoSolicitado.getQntPessoas());
         values.put(TABLE_EVENTO_COLUM_CLIENTE, eventoSolicitado.getCliente());
 
-        long i = mDatabase.insert(TABLE_EVENTO_NAME, null,values );
+        long j = mDatabase.insert(TABLE_EVENTO_NAME, null,values );
         // Encerra o a conexao com banco de dados
         mDatabase.close();
-        if(i > 0){
+        if(j > 0){
             Log.i("TAG","Evento cadastrado com sucesso!");
             return true;
         }else {

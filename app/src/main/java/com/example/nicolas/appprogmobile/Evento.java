@@ -64,4 +64,15 @@ public class Evento {
     public void setCliente(String cliente) {
         this.cliente = cliente;
     }
+
+    public String toString() {
+        return "Evento: " +
+                "\nTipo: " + tipo  +
+                "\nData: " + data +
+                "\nHorário: " + hora +
+                "\nData: " + data +
+                "\nLocal: " + local +
+                "\nQuantidade de pessoas esperadas: " + qntPessoas +
+                "\nCliente solicitante: " + cliente;
+    }
 }
