@@ -18,6 +18,8 @@
     <string name="passwordEmpresa">Senha:</string>
     <string name="confirm_passwordEmpresa">Confirmar a Senha:</string>
     <string name="txt_eventos_solicitados">Lista de Eventos Solicitados</string>
+    <string name="txt_meus_eventos_solicitados">Meus Eventos Solicitados</string>
+
 
     <!--Forms - Buttons-->
     <string name="login">Entrar</string>
@@ -31,6 +33,8 @@
     <string name="formatura">Formatura</string>
     <string name="quinzeanos">15 anos</string>
     <string name="casamento">Casamento</string>
+    <string name="aceitarEventos">Aceitar</string>
+    <string name="recusarEvento">Recusar</string>
 
 
 </resources>

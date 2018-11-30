@@ -12,10 +12,8 @@
         <activity android:name=".Inicial">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            </intent-filter></activity>
         <activity
             android:name=".Login"
             android:label="Login" />
@@ -40,6 +38,9 @@
         <activity
             android:name=".ClienteSolicitaAgendamentoEvento"
             android:label="ClienteSolicitaAgendamentoEvento"></activity>
+        <activity
+            android:name=".EmpresaAceitarRecusarEvento"
+            android:label="EmpresaAceitarRecusarEvento"></activity>
     </application>
 
 </manifest>

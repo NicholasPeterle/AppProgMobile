@@ -1,6 +1,8 @@
 package com.example.nicolas.appprogmobile;
 
-public class Evento {
+import java.io.Serializable;
+
+public class Evento implements Serializable {
     private String tipo;
     private String data;
     private String hora;

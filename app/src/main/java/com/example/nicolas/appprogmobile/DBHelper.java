@@ -21,7 +21,7 @@ public class DBHelper extends SQLiteOpenHelper {
     Context mContext;
     //Constatntes referente ao banco de dados
     private static final String DATABASE_NAME = "db_eventos.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 7;
 
     //Tabela EMPRESA
     private static final String TABLE_EMPRESA_NOME = "empresa";//nome da tabela
@@ -49,6 +49,16 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String TABLE_EVENTO_COLUM_LOCAL = "local";
     private static final String TABLE_EVENTO_COLUM_QTDPESSOAS = "qtdPessoas";
     private static final String TABLE_EVENTO_COLUM_CLIENTE = "cliente";
+
+    // TABELA MEUS EVENTOS
+    private static final String TABLE_MEU_EVENTO_NAME = "meuEvento";
+    private static final String TABLE_MEU_EVENTO_COLUM_ID = "id";
+    private static final String TABLE_MEU_EVENTO_COLUM_TIPO = "tipo"; //Será setado através do botão da tela ClienteEscolheServico.java
+    private static final String TABLE_MEU_EVENTO_COLUM_DATA = "data";
+    private static final String TABLE_MEU_EVENTO_COLUM_HORA = "hora";
+    private static final String TABLE_MEU_EVENTO_COLUM_LOCAL = "local";
+    private static final String TABLE_MEU_EVENTO_COLUM_QTDPESSOAS = "qtdPessoas";
+    private static final String TABLE_MEU_EVENTO_COLUM_CLIENTE = "cliente";
 
     /* SQL para criaçao da tabela cliente*/
     private static final String SQL_CREATE_TABLE_CONTACTS = " CREATE TABLE "
@@ -79,7 +89,16 @@ public class DBHelper extends SQLiteOpenHelper {
             + TABLE_EVENTO_COLUM_QTDPESSOAS + " INT NOT NULL, "
             + TABLE_EVENTO_COLUM_CLIENTE + " TEXT NOT NULL) ; " ;
     //+ "FOREIGN KEY(" +TABLE_EVENTO_COLUM_CLIENTE+ ") REFERENCES "+SQL_CREATE_TABLE_CONTACTS+"("+TABLE_CONTACT_COLUM_ID+"));" ;
-
+    // SQL para criacao da tabela EVENTO
+    private static final String SQL_CREATE_TABLE_MEU_EVENTO_NAME = " CREATE TABLE "
+            + TABLE_MEU_EVENTO_NAME + " ( "
+            + TABLE_MEU_EVENTO_COLUM_ID + " integer PRIMARY KEY AUTOINCREMENT, "
+            + TABLE_MEU_EVENTO_COLUM_TIPO + " TEXT NOT NULL, "
+            + TABLE_MEU_EVENTO_COLUM_LOCAL + " TEXT NOT NULL,"
+            + TABLE_MEU_EVENTO_COLUM_DATA + " TEXT NOT NULL, "
+            + TABLE_MEU_EVENTO_COLUM_HORA + " TEXT NOT NULL, "
+            + TABLE_MEU_EVENTO_COLUM_QTDPESSOAS + " INT NOT NULL, "
+            + TABLE_MEU_EVENTO_COLUM_CLIENTE + " TEXT NOT NULL) ; " ;
 
 
 
@@ -93,6 +112,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_TABLE_CONTACTS);
         db.execSQL(SQL_CREATE_TABLE_EMPRESA_NOME);
         db.execSQL(SQL_CREATE_TABLE_EVENTO_NAME);
+        db.execSQL(SQL_CREATE_TABLE_MEU_EVENTO_NAME);
         this.mDatabase = db;
     }
     @Override
@@ -103,11 +123,14 @@ public class DBHelper extends SQLiteOpenHelper {
         String query = "DROP TABLE IF EXISTS "+ TABLE_CONTACT_NAME;
         String query2 = "DROP TABLE IF EXISTS "+ TABLE_EMPRESA_NOME;
         String query3 = "DROP TABLE IF EXISTS "+ TABLE_EVENTO_NAME;
+        String query4 = "DROP TABLE IF EXISTS "+ TABLE_MEU_EVENTO_NAME;
 
         mDatabase = db;
         mDatabase.execSQL(query);
         mDatabase.execSQL(query2);
         mDatabase.execSQL(query3);
+        mDatabase.execSQL(query4);
+
         this.onCreate(mDatabase);
     }
     //*************************************************************************************
@@ -290,7 +313,7 @@ public class DBHelper extends SQLiteOpenHelper {
         long retornoBD;
         mDatabase = this.getWritableDatabase();
         String[] args = {String.valueOf(evento.getTipo())};
-        retornoBD = mDatabase.delete(TABLE_EVENTO_NAME, TABLE_EVENTO_COLUM_ID + "=?", args);
+        retornoBD = mDatabase.delete(TABLE_EVENTO_NAME, TABLE_EVENTO_COLUM_TIPO + "=?", args);
         mDatabase.close();
         return retornoBD;
     }
@@ -335,6 +358,71 @@ public class DBHelper extends SQLiteOpenHelper {
         //retorno a lista
         return eventos;
     }
+    //*********************************************************************************************8
+    // EVENTO - CRUD
+    public boolean insertMeusEventos(Evento eventoSolicitado){
+        mDatabase = this.getWritableDatabase();
 
+        ContentValues values = new ContentValues();
+        values.put(TABLE_MEU_EVENTO_COLUM_TIPO, eventoSolicitado.getTipo());
+        values.put(TABLE_MEU_EVENTO_COLUM_DATA, eventoSolicitado.getData());
+        values.put(TABLE_MEU_EVENTO_COLUM_HORA, eventoSolicitado.getHora());
+        values.put(TABLE_MEU_EVENTO_COLUM_LOCAL, eventoSolicitado.getLocal());
+        values.put(TABLE_MEU_EVENTO_COLUM_QTDPESSOAS, eventoSolicitado.getQntPessoas());
+        values.put(TABLE_MEU_EVENTO_COLUM_CLIENTE, eventoSolicitado.getCliente());
+
+        long k = mDatabase.insert(TABLE_MEU_EVENTO_NAME, null,values );
+        // Encerra o a conexao com banco de dados
+        mDatabase.close();
+        if(k > 0){
+            Log.i("TAG","Evento aceito!");
+            return true;
+        }else {
+            Log.e("TAG","O evento não foi aceito. Por favor, tente novamente.");
+            return false;
+        }
+    }
+
+    // Evento_Mostrar_todos - CRUD
+    public ArrayList<Evento> getMeusEvento(){
+        // Cria um List guardar os pessoas consultados no banco de dados
+        ArrayList<Evento> meusEventos = new ArrayList<Evento>();
+        // Contato auxiliar
+        Evento evento = null;
+        // Colunas desejadas no retorno
+        String[] coluns = {TABLE_MEU_EVENTO_COLUM_TIPO, TABLE_MEU_EVENTO_COLUM_CLIENTE, TABLE_MEU_EVENTO_COLUM_DATA ,TABLE_MEU_EVENTO_COLUM_HORA, TABLE_MEU_EVENTO_COLUM_LOCAL, TABLE_MEU_EVENTO_COLUM_QTDPESSOAS, TABLE_MEU_EVENTO_COLUM_CLIENTE};
+
+        // Instancia uma nova conexão com o banco de dados em modo leitura
+        mDatabase = this.getWritableDatabase();
+
+        // Executa a consulta no banco de dados
+        Cursor cursor = mDatabase.query(TABLE_MEU_EVENTO_NAME, coluns, null, null, null, null, TABLE_MEU_EVENTO_COLUM_ID +" ASC");
+        //db.rawQuery("SELECT * FROM contacts;",null);
+        /**
+         * Percorre o Cursor, injetando os dados consultados em um objeto definido do
+         * tipo {@link Evento} e adicionando-os na List
+         */
+        try{
+            while (cursor.moveToNext()){
+                evento = new Evento();
+                evento.setTipo(cursor.getString(cursor.getColumnIndex(TABLE_MEU_EVENTO_COLUM_TIPO)));
+                evento.setData(cursor.getString(cursor.getColumnIndex(TABLE_MEU_EVENTO_COLUM_DATA)));
+                evento.setHora(cursor.getString(cursor.getColumnIndex(TABLE_MEU_EVENTO_COLUM_HORA)));
+                evento.setLocal(cursor.getString(cursor.getColumnIndex(TABLE_MEU_EVENTO_COLUM_LOCAL)));
+                evento.setQntPessoas(cursor.getString(cursor.getColumnIndex(TABLE_MEU_EVENTO_COLUM_QTDPESSOAS)));
+                evento.setCliente(cursor.getString(cursor.getColumnIndex(TABLE_MEU_EVENTO_COLUM_CLIENTE)));
+
+
+                meusEventos.add(evento);
+            }
+        }finally {
+            // Encerra o Cursor
+            cursor.close();
+        }
+        // Encerra o a conexao com banco de dados
+        mDatabase.close();
+        //retorno a lista
+        return meusEventos;
+    }
 
 }

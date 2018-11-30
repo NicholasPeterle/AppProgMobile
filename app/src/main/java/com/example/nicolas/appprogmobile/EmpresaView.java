@@ -15,12 +15,15 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class EmpresaView extends AppCompatActivity {
     private EditText edtUser;
+    private ListView lvMeusEventosSolicitados;
     private ListView lvEventosSolicitados;
     private ArrayList<Evento> mListEventosSolicitados;
+    private ArrayList<Evento> mListMeusEventosSolicitados;
     private DBHelper mDBHelper;
     private ArrayAdapter<Evento> mAdapter;
     private Evento mEvento;
@@ -56,9 +59,13 @@ public class EmpresaView extends AppCompatActivity {
 
         edtUser = findViewById(R.id.edtUser);
         lvEventosSolicitados =  findViewById(R.id.lvEventosSolicitados);
+        lvMeusEventosSolicitados =  findViewById(R.id.lvMeusEventosSolicitados);
+
+
         mEvento = new Evento();
         // Registrando  omenu de contexto
         registerForContextMenu(lvEventosSolicitados);
+        registerForContextMenu(lvMeusEventosSolicitados);
 
         Bundle args = getIntent().getExtras();
         String user = args.getString("user_key");
@@ -74,22 +81,24 @@ public class EmpresaView extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Toast.makeText(EmpresaView.this, "Click Simples: Nome: "+mListEventosSolicitados.get(position).getTipo(), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(EmpresaView.this, Update.class);
-                intent.putExtra("evento", (CharSequence) mListEventosSolicitados.get(position));
+                Intent intent = new Intent(EmpresaView.this, EmpresaAceitarRecusarEvento.class);
+                intent.putExtra("evento",mListEventosSolicitados.get(position));
                 startActivity(intent);
             }
         });
         //Clique Longo
+
         lvEventosSolicitados.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Toast.makeText(EmpresaView.this, "Click Longo: Nome: "+mListEventosSolicitados.get(position).getTipo(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(EmpresaView.this, "Click Longo: Nome: "+mListEventosSolicitados.get(position).getCliente(), Toast.LENGTH_SHORT).show();
                 mEvento = mListEventosSolicitados.get(position);
                 return false;
             }
         });
-    }
 
+    }
+    /*
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
     {
@@ -110,12 +119,14 @@ public class EmpresaView extends AppCompatActivity {
             }
         });
     }
+    */
 
     @Override
     protected void onResume() {
         super.onResume();
         mDBHelper = new DBHelper(EmpresaView.this);
         fillList();
+        fillMyList();
     }
 
     public  void fillList(){
@@ -129,6 +140,20 @@ public class EmpresaView extends AppCompatActivity {
                     mListEventosSolicitados);
             // Setando o adaptador
             lvEventosSolicitados.setAdapter(mAdapter);
+        }
+    }
+
+    public  void fillMyList(){
+
+        mListMeusEventosSolicitados = mDBHelper.getMeusEvento();
+
+        if(mListMeusEventosSolicitados != null){
+            mAdapter = new ArrayAdapter<>(
+                    EmpresaView.this,
+                    android.R.layout.simple_list_item_1,
+                    mListMeusEventosSolicitados);
+            // Setando o adaptador
+            lvMeusEventosSolicitados.setAdapter(mAdapter);
         }
     }
     public boolean onCreateOptionsMenu(Menu menu){
